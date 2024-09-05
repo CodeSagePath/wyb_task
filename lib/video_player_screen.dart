@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import ScreenUtil
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wyb_task/video_cache_manager.dart';
 
@@ -22,6 +22,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     'https://videos.pexels.com/video-files/6077689/6077689-sd_360_640_25fps.mp4',
     'https://videos.pexels.com/video-files/2791956/2791956-sd_360_640_25fps.mp4',
     'https://videos.pexels.com/video-files/5445273/5445273-sd_360_640_25fps.mp4',
+  ];
+
+  final List<String> _names = [
+    'Alice',
+    'Bob',
+    'Charlie',
+    'Diana',
   ];
 
   @override
@@ -79,14 +86,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize ScreenUtil
     ScreenUtil.init(context);
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         shadowColor: const Color.fromRGBO(158, 158, 158, 0.1),
-        toolbarHeight: 0, // kTextHeightNone doesn't exist in newer versions
+        toolbarHeight: 0,
       ),
       body: Stack(
         children: [
@@ -104,12 +110,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             itemBuilder: (context, index) {
               return AnimatedOpacity(
                 opacity: _isTransitioning ? 0.0 : 1.0,
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 250),
                 child: FittedBox(
                   fit: BoxFit.cover,
                   child: SizedBox(
-                    width: ScreenUtil().screenWidth, // Using ScreenUtil for width
-                    height: ScreenUtil().screenHeight, // Using ScreenUtil for height
+                    width: ScreenUtil().screenWidth,
+                    height: ScreenUtil().screenHeight,
                     child:
                         _controller != null && _controller!.value.isInitialized
                             ? VideoPlayer(_controller!)
@@ -119,33 +125,50 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               );
             },
           ),
-          // Progress Bar
+          // Top Progress Bar
           Positioned(
-            bottom: 40.h, // Use .h for height scaling
+            top: 20.h,
             left: 0,
             right: 0,
             child: LinearProgressIndicator(
               value: _progress,
               backgroundColor: Colors.black.withOpacity(0.5),
               valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+              minHeight: 2.h,
             ),
           ),
-          // Profile Circle Icon
+          // Profile Icon and Name
           Positioned(
-            top: 30.h, // Use .h for vertical scaling
-            left: 20.w, // Use .w for horizontal scaling
-            child: CircleAvatar(
-              radius: 20.r, // Use .r for radius scaling
-              backgroundImage: AssetImage('assets/profile$_currentIndex.jpg'),
-              backgroundColor: Colors.transparent,
+            top: 30.h,
+            left: 20.w,
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 20.r,
+                  backgroundImage:
+                      AssetImage('assets/profile$_currentIndex.jpeg'),
+                  backgroundColor: Colors.transparent,
+                ),
+                SizedBox(width: 10.w),
+                Text(
+                  _names[_currentIndex],
+                  style: TextStyle(
+                    // color: const Color.fromRGBO(74, 10, 10, 1),
+                    fontFamily: 'Roboto',
+                    color: Colors.white,
+                    fontSize: 16.sp, // Responsive font size
+                    // fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
           // Bottom Profile Indicators
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 100.h, // Adjusted height with ScreenUtil
-              padding: EdgeInsets.only(bottom: 20.h), // Use .h for padding scaling
+              height: 100.h,
+              padding: EdgeInsets.only(bottom: 20.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(_videoPaths.length, (index) {
@@ -161,10 +184,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
-                      width: _currentIndex == index ? 80.w : 60.w, // Use .w for width scaling
-                      height: _currentIndex == index ? 80.h : 60.h, // Use .h for height scaling
+                      width: _currentIndex == index ? 80.w : 60.w,
+                      height: _currentIndex == index ? 80.h : 60.h,
                       child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/profile$index.jpg'),
+                        backgroundImage: AssetImage('assets/profile$index.jpeg'),
                         child: _currentIndex == index
                             ? Container(
                                 decoration: const BoxDecoration(
