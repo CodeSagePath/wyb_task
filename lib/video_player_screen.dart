@@ -84,40 +84,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          PageView.builder(
-            controller: _pageController,
-            itemCount: _videoPaths.length,
-            onPageChanged: (index) {
-              if (_currentIndex != index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-                _initializeAndPlay(index);
-              }
-            },
-            itemBuilder: (context, index) {
-              return CylindricalPageTransformer(
-                page: AnimatedOpacity(
-                  opacity: _isTransitioning ? 0.0 : 1.0,
-                  duration: const Duration(milliseconds: 250),
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: ScreenUtil().screenWidth,
-                      height: ScreenUtil().screenHeight,
-                      child: _controller != null && _controller!.value.isInitialized
-                          ? VideoPlayer(_controller!)
-                          : const Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
-                ),
-                offset: (_pageController.hasClients) ? _pageController.page! - index.toDouble() : 0.0,
-              );
-            },
-          ),
-          // Adjusted Top Profile, Dots, and Close Button
+          // Static elements like profile, close button, etc.
+          // Top Profile, Dots, and Close Button (Static)
           Positioned(
-            top: 50.h, // Moved down
+            top: 50.h,
             left: 20.w,
             right: 20.w,
             child: Row(
@@ -157,9 +127,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               ],
             ),
           ),
-          // Top Progress Bar
+          // Top Progress Bar (Static)
           Positioned(
-            top: 30.h, // Moved the progress bar a bit downward as well
+            top: 30.h,
             left: 0,
             right: 0,
             child: LinearProgressIndicator(
@@ -169,9 +139,41 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               minHeight: 2.h,
             ),
           ),
-          // Show only current profile at bottom
+          // Main Video Content (Swappable)
+          PageView.builder(
+            controller: _pageController,
+            itemCount: _videoPaths.length,
+            onPageChanged: (index) {
+              if (_currentIndex != index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+                _initializeAndPlay(index);
+              }
+            },
+            itemBuilder: (context, index) {
+              return CylindricalPageTransformer(
+                page: AnimatedOpacity(
+                  opacity: _isTransitioning ? 0.0 : 1.0,
+                  duration: const Duration(milliseconds: 250),
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: ScreenUtil().screenWidth,
+                      height: ScreenUtil().screenHeight,
+                      child: _controller != null && _controller!.value.isInitialized
+                          ? VideoPlayer(_controller!)
+                          : const Center(child: CircularProgressIndicator()),
+                    ),
+                  ),
+                ),
+                offset: (_pageController.hasClients) ? _pageController.page! - index.toDouble() : 0.0,
+              );
+            },
+          ),
+          // Bottom Profile (Static)
           Positioned(
-            bottom: 50.h, // Adjusted position
+            bottom: 50.h,
             left: 20.w,
             right: 20.w,
             child: Row(
@@ -186,9 +188,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               ],
             ),
           ),
-          // Bottom Text (Instagram Story-Like Text)
+          // Bottom Caption (Static)
           Positioned(
-            bottom: 20.h, // Moved this upward to create space for profile indicators
+            bottom: 20.h,
             left: 20.w,
             right: 20.w,
             child: Text(
