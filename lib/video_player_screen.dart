@@ -126,7 +126,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   children: [
                     CircleAvatar(
                       radius: 20.r,
-                      backgroundImage: AssetImage('assets/profile${_currentIndex + 1}.jpeg'),
+                      backgroundImage: AssetImage('assets/profile$_currentIndex.jpeg'),
                       backgroundColor: Colors.transparent,
                     ),
                     SizedBox(width: 10.w),
@@ -175,7 +175,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               children: [
                 CircleAvatar(
                   radius: 50.r,
-                  backgroundImage: AssetImage('assets/profile${_currentIndex + 1}.jpeg'),
+                  backgroundImage: AssetImage('assets/profile$_currentIndex.jpeg'),
                   backgroundColor: Colors.transparent,
                 ),
                 SizedBox(width: 10.w),
