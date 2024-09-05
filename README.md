@@ -10,9 +10,9 @@ This is a Flutter project assignment given to me by Wyb. The task was to create 
 
 To see the application in action, watch the demo video below:
 
-[![Watch the demo video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://github.com/CodeSagePath/wyb_task/blob/master/demo%20video/Wyb%20Stories%20Demo.mp4)
-
-*Note: Replace `VIDEO_ID` with an actual video ID if you have a YouTube thumbnail.*
+<!-- [![Watch the demo video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://github.com/CodeSagePath/wyb_task/blob/master/demo%20video/Wyb%20Stories%20Demo.mp4) -->
+[![Watch the demo video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://drive.google.com/file/d/1ICc6e-bntqrI7t6XiQYEGOyYYa_ISefj/view?usp=drive_link)
+<!-- *Note: Replace `VIDEO_ID` with an actual video ID if you have a YouTube thumbnail.* -->
 
 ## Getting Started
 
