@@ -142,13 +142,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 ),
                 Row(
                   children: [
-                    Icon(Icons.more_horiz, color: Colors.white),
+                    const Icon(Icons.more_horiz, color: Colors.white),
                     SizedBox(width: 10.w),
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Icon(Icons.close, color: Colors.white),
+                      child: const Icon(Icons.close, color: Colors.white),
                     ),
                   ],
                 ),
