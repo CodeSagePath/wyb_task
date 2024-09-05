@@ -3,10 +3,6 @@
 *.log
 *.pyc
 *.swp
-*.swo
-*.swn
-*.sublime-project
-*.sublime-workspace
 .DS_Store
 .atom/
 .buildlog/
@@ -20,8 +16,10 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# VS Code related
-.vscode/
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -31,15 +29,7 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-.build/
-.packages
-pubspec.lock
-**/android/.gradle/
-**/ios/Pods/
-**/ios/Flutter/flutter_export_environment.sh
-**/ios/Flutter/flutter_assets/
-**/ios/Flutter/Flutter.framework/
-**/ios/Flutter/Flutter.dylib
+/build/
 
 # Symbolication related
 app.*.symbols
@@ -47,13 +37,47 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-# Android Studio build artifacts
+# Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile
 /android/app/release
 
+
+# Flutter/Dart/Pub related
+.flutter-plugins
+.flutter-plugins-deps
+.packages
+pubspec.lock
+build/
+dart_tool/
+.idea/
+.metadata
+.flutter-plugins
+.flutter-plugins-deps
+**/android/.gradle/
+**/ios/Pods/
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/flutter_assets/
+**/ios/Flutter/Flutter.framework/
+**/ios/Flutter/Flutter.dylib
+
 # macOS specific
 *.DS_Store
+
+# VS Code specific
+.vscode/
+
+# IntelliJ specific
+*.iml
+*.ipr
+*.iws
+
+# User-specific files
+*.swp
+*.swo
+*.swn
+*.sublime-project
+*.sublime-workspace
 
 # Build outputs
 *.apk
@@ -64,3 +88,15 @@ app.*.map.json
 
 # Test coverage
 coverage/
+
+# Code analysis
+*.dart_tool/
+
+# Logs
+*.log
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.iws
+
