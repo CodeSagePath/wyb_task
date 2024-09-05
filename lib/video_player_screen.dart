@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
-import 'package:wyb_task/video_cache_manager.dart';
+import 'package:wyb_task/helpers/page_transformer.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   const VideoPlayerScreen({super.key});
@@ -24,12 +24,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     'https://videos.pexels.com/video-files/5445273/5445273-sd_360_640_25fps.mp4',
   ];
 
-  final List<String> _names = [
-    'Alice',
-    'Bob',
-    'Charlie',
-    'Diana',
-  ];
+  final List<String> _names = ['Alice', 'Bob', 'Charlie', 'Diana'];
 
   @override
   void initState() {
@@ -49,10 +44,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     }
 
     final videoPath = _videoPaths[index];
-    final cacheManager = VideoCacheManager();
-    final file = await cacheManager.getSingleFile(videoPath);
-
-    _controller = VideoPlayerController.file(file)
+    _controller = VideoPlayerController.networkUrl(Uri.parse(videoPath))
       ..initialize().then((_) {
         setState(() {
           _isTransitioning = false;
@@ -90,10 +82,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        shadowColor: const Color.fromRGBO(158, 158, 158, 0.1),
-        toolbarHeight: 0,
-      ),
       body: Stack(
         children: [
           PageView.builder(
@@ -108,97 +96,107 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               }
             },
             itemBuilder: (context, index) {
-              return AnimatedOpacity(
-                opacity: _isTransitioning ? 0.0 : 1.0,
-                duration: const Duration(milliseconds: 250),
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: ScreenUtil().screenWidth,
-                    height: ScreenUtil().screenHeight,
-                    child:
-                        _controller != null && _controller!.value.isInitialized
-                            ? VideoPlayer(_controller!)
-                            : const Center(child: CircularProgressIndicator()),
+              return CylindricalPageTransformer(
+                page: AnimatedOpacity(
+                  opacity: _isTransitioning ? 0.0 : 1.0,
+                  duration: const Duration(milliseconds: 250),
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: ScreenUtil().screenWidth,
+                      height: ScreenUtil().screenHeight,
+                      child: _controller != null && _controller!.value.isInitialized
+                          ? VideoPlayer(_controller!)
+                          : const Center(child: CircularProgressIndicator()),
+                    ),
                   ),
                 ),
+                offset: (_pageController.hasClients) ? _pageController.page! - index.toDouble() : 0.0,
               );
             },
           ),
-          // Top Progress Bar
+          // Adjusted Top Profile, Dots, and Close Button
           Positioned(
-            top: 20.h,
-            left: 0,
-            right: 0,
-            child: LinearProgressIndicator(
-              value: _progress,
-              backgroundColor: Colors.black.withOpacity(0.5),
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-              minHeight: 2.h,
-            ),
-          ),
-          // Profile Icon and Name
-          Positioned(
-            top: 30.h,
+            top: 50.h, // Moved down
             left: 20.w,
+            right: 20.w,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
-                  radius: 20.r,
-                  backgroundImage:
-                      AssetImage('assets/profile$_currentIndex.jpeg'),
-                  backgroundColor: Colors.transparent,
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 20.r,
+                      backgroundImage:
+                          AssetImage('assets/profile$_currentIndex.jpeg'),
+                      backgroundColor: Colors.transparent,
+                    ),
+                    SizedBox(width: 10.w),
+                    Text(
+                      _names[_currentIndex],
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 10.w),
-                Text(
-                  _names[_currentIndex],
-                  style: TextStyle(
-                    // color: const Color.fromRGBO(74, 10, 10, 1),
-                    fontFamily: 'Roboto',
-                    color: Colors.white,
-                    fontSize: 16.sp, // Responsive font size
-                    // fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  children: [
+                    Icon(Icons.more_horiz, color: Colors.white),
+                    SizedBox(width: 10.w),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(Icons.close, color: Colors.white),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          // Bottom Profile Indicators
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 100.h,
-              padding: EdgeInsets.only(bottom: 20.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(_videoPaths.length, (index) {
-                  return GestureDetector(
-                    onTap: () {
-                      _pageController.animateToPage(
-                        index,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                      _initializeAndPlay(index);
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                      width: _currentIndex == index ? 80.w : 60.w,
-                      height: _currentIndex == index ? 80.h : 60.h,
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/profile$index.jpeg'),
-                        child: _currentIndex == index
-                            ? Container(
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                              )
-                            : null,
-                      ),
-                    ),
-                  );
-                }),
+          // Top Progress Bar
+          Positioned(
+            top: 30.h, // Moved the progress bar a bit downward as well
+            left: 0,
+            right: 0,
+            child: LinearProgressIndicator(
+              value: _progress,
+              backgroundColor: Colors.grey.withOpacity(1),
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+              minHeight: 2.h,
+            ),
+          ),
+          // Show only current profile at bottom
+          Positioned(
+            bottom: 50.h, // Adjusted position
+            left: 20.w,
+            right: 20.w,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 50.r,
+                  backgroundImage: AssetImage('assets/profile$_currentIndex.jpeg'),
+                  backgroundColor: Colors.transparent,
+                ),
+                SizedBox(width: 10.w),
+              ],
+            ),
+          ),
+          // Bottom Text (Instagram Story-Like Text)
+          Positioned(
+            bottom: 20.h, // Moved this upward to create space for profile indicators
+            left: 20.w,
+            right: 20.w,
+            child: Text(
+              'Some description or caption for the story ...',
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                color: Colors.white,
+                fontSize: 12.sp,
               ),
             ),
           ),
