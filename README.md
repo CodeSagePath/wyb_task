@@ -11,7 +11,7 @@ This is a Flutter project assignment given to me by Wyb. The task was to create 
 To see the application in action, watch the demo video below:
 
 <!-- [![Watch the demo video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://github.com/CodeSagePath/wyb_task/blob/master/demo%20video/Wyb%20Stories%20Demo.mp4) -->
-[![Watch the demo video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://drive.google.com/file/d/1ICc6e-bntqrI7t6XiQYEGOyYYa_ISefj/view?usp=drive_link)
+[![Watch the demo video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://github.com/user-attachments/assets/528612f6-33e7-4742-aa92-6e0784e806b0)
 <!-- *Note: Replace `VIDEO_ID` with an actual video ID if you have a YouTube thumbnail.* -->
 
 ## Getting Started
@@ -89,3 +89,7 @@ Collaborate with the maintainers to review your changes and discuss any modifica
 
 # License
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contributors
+
+[@CodeSagePath](https://github.com/CodeSagePath)
