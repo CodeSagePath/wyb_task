@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
+  const VideoPlayerScreen({super.key});
+
   @override
-  _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
+  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
@@ -77,7 +79,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             itemBuilder: (context, index) {
               return AnimatedOpacity(
                 opacity: _isTransitioning ? 0.0 : 1.0,
-                duration: Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 500),
                 child: FittedBox(
                   fit: BoxFit.cover,
                   child: SizedBox(
@@ -86,7 +88,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     child:
                         _controller != null && _controller!.value.isInitialized
                             ? VideoPlayer(_controller!)
-                            : Center(child: CircularProgressIndicator()),
+                            : const Center(child: CircularProgressIndicator()),
                   ),
                 ),
               );
@@ -96,7 +98,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: 100,
-              padding: EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.only(bottom: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(_videoPaths.length, (index) {
@@ -104,13 +106,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     onTap: () {
                       _pageController.animateToPage(
                         index,
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                       );
                       _initializeAndPlay(index);
                     },
                     child: AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                       width: _currentIndex == index ? 80.0 : 60.0,
                       height: _currentIndex == index ? 80.0 : 60.0,
@@ -118,7 +120,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         backgroundImage: AssetImage('assets/profile$index.jpg'),
                         child: _currentIndex == index
                             ? Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
                               )
